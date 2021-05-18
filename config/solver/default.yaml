@@ -17,7 +17,11 @@ optimizer:
     momentum: 0.9
     weight_decay: 0.0001
     nesterov: false
-
+  param_groups:
+    lr: 0.03
+    momentum: 0.9
+    weight_decay: 0.0001
+    nesterov: false
 
 supervised_criterion:
   cls: torch.nn.CrossEntropyLoss
@@ -28,3 +32,6 @@ lr_scheduler:
   params:
     eta_min: 0.0
     T_max: null
+  param_groups:
+    eta_min: 0.0
+    T_max: null  
