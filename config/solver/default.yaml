@@ -25,7 +25,7 @@ supervised_criterion:
 
 lr_scheduler:
   cls: torch.optim.lr_scheduler.CosineAnnealingLR
-  param_groups:
+  params:
     eta_min: 0.0
     T_max: null
 
