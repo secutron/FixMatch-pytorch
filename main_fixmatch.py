@@ -39,7 +39,8 @@ def training(local_rank, cfg):
     logger = setup_logger("FixMatch Training", distributed_rank=idist.get_rank())
 
     if local_rank == 0:
-        logger.info(cfg.pretty())
+        #logger.info(cfg.pretty())
+        logger.info(cfg)
 
     rank = idist.get_rank()
     manual_seed(cfg.seed + rank)
