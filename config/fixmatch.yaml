@@ -30,6 +30,8 @@ solver:
     cls: torch.nn.CrossEntropyLoss
     params:
       reduction: 'none'
+    param_groups:
+      reduction: 'none'
 
 
 distributed:
