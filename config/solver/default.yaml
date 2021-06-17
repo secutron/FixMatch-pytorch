@@ -12,7 +12,7 @@ resume_from: null
 
 optimizer:
   cls: torch.optim.SGD
-  params:
+  param_groups:
     lr: 0.03
     momentum: 0.9
     weight_decay: 0.0001
@@ -25,7 +25,7 @@ supervised_criterion:
 
 lr_scheduler:
   cls: torch.optim.lr_scheduler.CosineAnnealingLR
-  params:
+  param_groups:
     eta_min: 0.0
     T_max: null
 
