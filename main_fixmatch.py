@@ -52,7 +52,7 @@ def training(local_rank, cfg):
 
     cta = get_default_cta()
     
-    optimizer = instantiate(cfg.solver.optimizer, model.parameters())
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.0, weight_decay=0.0001, nesterov=False)
     optimizer = idist.auto_optim(optimizer)
     
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, eta_min=0.0, T_max=6400)
