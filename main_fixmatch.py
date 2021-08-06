@@ -51,6 +51,14 @@ def training(local_rank, cfg):
     unsup_criterion = instantiate(cfg.solver.unsupervised_criterion)
 
     cta = get_default_cta()
+    
+    optimizer = instantiate(cfg.solver.optimizer, model.parameters())
+    optimizer = idist.auto_optim(optimizer)
+    
+    lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, eta_min=0.0, T_max=6400)
+
+    sup_criterion = torch.nn.CrossEntropyLoss()
+    unsup_criterion = torch.nn.CrossEntropyLoss()
 
     (
         supervised_train_loader,
@@ -204,7 +212,20 @@ def training(local_rank, cfg):
 
 @hydra.main(config_path="config", config_name="fixmatch")
 def main(cfg: DictConfig) -> None:
+    cfg.distributed.backend = "nccl" #"xla-tpu"
+    cfg.distributed.nproc_per_node = 1
+    cfg.online_exp_tracking.wandb = False
 
+    cfg.solver.num_epochs = 50
+    cfg.ssl.confidence_threshold = 0.7
+    cfg.ema_decay = 0.9
+    cfg.ssl.cta_update_every = 15
+    #cfg.solver.optimizer.params.lr = 0.1
+    cfg.solver.optimizer.param_groups.lr = 0.1
+
+    cfg.debug = "true"    
+    
+    
     with idist.Parallel(
         backend=cfg.distributed.backend, nproc_per_node=cfg.distributed.nproc_per_node
     ) as parallel:
