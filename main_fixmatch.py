@@ -212,7 +212,7 @@ def training(local_rank, cfg):
 
 @hydra.main(config_path="config", config_name="fixmatch")
 def main(cfg: DictConfig) -> None:
-    cfg.distributed.backend = "nccl" #"xla-tpu"
+    cfg.distributed.backend = "gloo" #"xla-tpu"
     cfg.distributed.nproc_per_node = 1
     cfg.online_exp_tracking.wandb = False
 
