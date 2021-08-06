@@ -4,4 +4,4 @@ name: cifar10
 data_path: "/content/cifar10"
 
 batch_size: 64
-num_workers: 12
+num_workers: 1
